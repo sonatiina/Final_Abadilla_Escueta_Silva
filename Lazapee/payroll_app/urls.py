@@ -22,6 +22,7 @@ urlpatterns = [
     path('', views.log_in, name = 'log_in'),
     path('landing', views.landing, name = 'landing'),
     path('log_out', views.log_out, name = 'log_out'),
-    path('add_employee' , views.add_employee, name = 'add_employee')
+    path('add_employee' , views.add_employee, name = 'add_employee'),
+    path('remove_employee/<int:pk>/', views.remove_employee, name  = 'remove_employee')
 
 ]

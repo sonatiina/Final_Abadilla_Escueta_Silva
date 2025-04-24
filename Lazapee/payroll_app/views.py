@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_list_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 
 
 from .models import Employee
@@ -45,6 +45,8 @@ def add_employee(request):
         eallowance = request.POST.get('allowance')
         eot = request.POST.get('overtime')
 
+        eallowance = float(eallowance) if eallowance else None
+
         if eid and ename and erate:
             Employee.objects.create(
                 name = ename,
@@ -63,3 +65,10 @@ def add_employee(request):
         return redirect('landing')
 
     return render(request, 'payroll_app/add_employee.html')
+
+@login_required(login_url='log_in')
+def remove_employee(request ,pk):
+    employee = get_object_or_404(Employee, pk=pk)
+    employee.delete()
+
+    return redirect('landing')

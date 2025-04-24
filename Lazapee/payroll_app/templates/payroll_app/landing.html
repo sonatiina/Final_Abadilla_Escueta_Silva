@@ -62,7 +62,7 @@
                     <td>{{e.overtime_pay}}</td>
                     <td>
                         <div class="editBtns" style="gap: 1em;">
-                            <a href="" class="btn btn-danger" style="display: flex; flex: 1 1 20em;">Delete Account</a>
+                            <a href="{% url 'remove_employee' e.pk %}" class="btn btn-danger" style="display: flex; flex: 1 1 20em;">Delete Account</a>
                             <a href="" class="btn btn-danger">Edit</a>
                             <a href="" class="btn btn-danger">Add overtime</a>
                         </div>
