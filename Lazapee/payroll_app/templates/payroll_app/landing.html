@@ -1,0 +1,88 @@
+{% extends 'payroll_app/base.html' %}
+
+{% block header %}
+
+    <nav class="header">
+        <div class="title" style="display: flex">
+            <h1>Lazapee <small> Payroll</small></h1>
+            
+        </div>
+
+        <div class="buttons" >
+            <a href="{% url 'log_out' %}" class="btn btn-danger">Log Out</a>
+        </div>
+
+    </nav>
+
+{% endblock %}
+
+    
+
+{% block form %}
+    <div class="containerL" >
+        <div class="dashcard">
+            <h3>Employee Count:</h3>
+        </div>
+        <div class="dashcard" >
+            <h3>Average Salary:</h3>
+        </div>
+        <div class="dashcard" >
+            <h3>Overtime Hours:</h3>
+        </div>
+
+    </div>
+
+    <div class="conTable">
+        <div class="tableTitle">
+            <div class="tableTit">
+                <h1> Lazapee Employees </h1>
+            </div>
+            <div class="tableBtn">
+                <a href="{% url 'add_employee' %}" class="btn btn-warning" > Add an Employee</a>
+            </div>  
+        </div>
+        <table class="employees" style="border: 1px solid;" >
+            <thead>
+                <tr>
+                <th>ID Number</th>
+                <th>Name</th>
+                <th>Rate</th>
+                <th>Allowance</th>
+                <th>Overtime Pay</th>
+                <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in employees %}
+                <tr>
+                    <td>{{e.id_number}}</td>
+                    <td>{{e.name}}</td>
+                    <td>{{e.rate}}</td>
+                    <td>{{e.allowance}}</td>
+                    <td>{{e.overtime_pay}}</td>
+                    <td>
+                        <div class="editBtns" style="gap: 1em;">
+                            <a href="" class="btn btn-danger" style="display: flex; flex: 1 1 20em;">Delete Account</a>
+                            <a href="" class="btn btn-danger">Edit</a>
+                            <a href="" class="btn btn-danger">Add overtime</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+        
+{% endblock %}
+
+
+{% block footer %}
+
+    <nav class="footer">
+        <div class="title">
+            <h3>Lazapee Ph 2025</h3>
+        </div>
+
+    </nav>
+
+{%endblock%}

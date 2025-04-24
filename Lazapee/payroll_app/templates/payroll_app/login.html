@@ -1,0 +1,58 @@
+{% extends 'payroll_app/base.html' %}
+
+{% block header %}
+
+    <nav class="header">
+        <div class="title" style="padding-top: 2em; color: white;">
+            <h1>Lazapee</h1>
+        </div>
+
+        <div class="buttons" style="padding-top: 2em;">
+            <a href="" class="btn btn-primary">Yes</a>
+            <a href="" class="btn btn-warning">Log Out</a>
+        </div>
+
+    </nav>
+
+{% endblock %}
+
+{% block form %}
+
+    <div class="container">
+        <div class="card">
+            <h2 style="color: rgb(55, 235, 241);">Log-In</h2>
+            <form method="POST" class="loginform" style="display: flex; flex-direction: column;">
+                {% csrf_token %}
+                <label for="username">Enter your username</label>
+                <input type="text" name="username" id="username">
+                <label for="pass">Enter your Password</label>
+                <input type="password" name="pass" id="pass">
+                <input type="submit" class="submit" value="Login" style="margin-top:2em ; padding: 1em; border-radius: 0.3em;" >
+                {% if messages %}
+                    {% for message in messages %}
+                        <div style="color: rgb(222, 125, 241); " >
+                            {{message}}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+              
+                
+
+            </form>
+
+        </div>
+
+    </div>
+
+{%endblock%}
+
+{% block footer %}
+
+    <nav class="footer">
+        <div class="title">
+            <h3>Lazapee Ph 2025</h3>
+        </div>
+
+    </nav>
+
+{%endblock%}

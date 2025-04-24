@@ -1,0 +1,65 @@
+{% extends 'payroll_app/base.html' %}
+
+{% block header %}
+
+    <nav class="header">
+        <div class="title" style="padding-top: 2em; color: white;">
+            <h1>Lazapee</h1>
+        </div>
+
+        <div class="buttons">
+            <a href="{% url 'log_out' %}" class="btn btn-danger">Log Out</a>
+        </div>
+
+    </nav>
+
+{% endblock %}
+
+{% block form %}
+
+    <div class="containerAdd">
+        <div class="addCard" >
+            <form method="POST" class="addForm">
+                {% csrf_token %}
+                <label for="num" >ID Number</label>
+                <input type="text" name="num" id="num" placeholder="Identification Number" class="addF">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" placeholder="Full name of Employee" class="addF">
+                <label for="rate">Employee Monthly Rate</label>
+                <input type="text" name="rate" id="rate" placeholder="Monthly Salary of employee" class="addF">
+                <label for="allowance">Employee Allowance</label>
+                <input type="text" name="allowance" id="allowance" placeholder="Allowance of employee" class="addF">
+                <input type="submit" class="btn btn-info" value="Add Employee"  style=" margin: 1.7em; width: fit-content; ">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div style="color: rgb(222, 125, 241); " >
+                            {{message}}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+              
+            </form>
+
+            <div class="goBack" style="display: flex; margin: 2em; justify-content: flex-end;">
+                <div>
+                    <a href="{% url 'landing' %}" class="btn btn-primary" style="padding: 1.3em;">Go back</a>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block footer %}
+
+    <nav class="footer">
+        <div class="title">
+            <h3>Lazapee Ph 2025</h3>
+        </div>
+
+    </nav>
+
+{%endblock%}
