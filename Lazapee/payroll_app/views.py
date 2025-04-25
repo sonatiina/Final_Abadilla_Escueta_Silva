@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
+from django.db.models import Avg, Sum
 
 from .models import Employee
 from django.contrib import messages
@@ -28,7 +29,17 @@ def log_in(request):
 @login_required(login_url='log_in')
 def landing(request):
     employees = Employee.objects.all()
-    return render(request, 'payroll_app/landing.html', {'employees': employees})
+    total_employees= Employee.objects.count()
+    avSalary = Employee.objects.aggregate(avg_price=Avg("rate", default = 0))['avg_price']
+    overtime = Employee.objects.aggregate(total_overtime=Sum("overtime_pay"))['total_overtime']
+
+    return render(request, 'payroll_app/landing.html', {'employees': employees, 
+                                                        'total_employees': total_employees, 
+                                                        'avSalary': avSalary, 
+                                                        'overtime' : overtime,
+                                                        })  
+
+
 
 @login_required(login_url='log_in')
 def log_out(request):
@@ -72,3 +83,6 @@ def remove_employee(request ,pk):
     employee.delete()
 
     return redirect('landing')
+
+
+

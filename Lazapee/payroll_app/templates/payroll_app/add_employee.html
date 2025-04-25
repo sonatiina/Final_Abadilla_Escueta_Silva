@@ -14,7 +14,7 @@
     </nav>
 
 {% endblock %}
-
+    
 {% block form %}
 
     <div class="containerAdd">
@@ -30,6 +30,7 @@
                 <label for="allowance">Employee Allowance</label>
                 <input type="text" name="allowance" id="allowance" value="0" class="addF">
                 <input type="submit" class="btn btn-info" value="Add Employee"  style=" margin: 1.7em; width: fit-content; ">
+                <a href="{% url 'landing' %}" class="btn btn-primary" style="padding: 0.7em;">Go back</a>
                 {% if messages %}
                     {% for message in messages %}
                         <div style="color: rgb(222, 125, 241); " >
@@ -40,12 +41,7 @@
               
             </form>
 
-            <div class="goBack" style="display: flex; margin: 2em; justify-content: flex-end;">
-                <div>
-                    <a href="{% url 'landing' %}" class="btn btn-primary" style="padding: 1.3em;">Go back</a>
-                </div>
-            </div>
-            
+       
             
         </div>
     </div>

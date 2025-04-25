@@ -31,3 +31,4 @@ class Employee(models.Model):
 
     def __str__(self):
         return f"pk: {self.id_number}, rate: {self.rate}"
+    

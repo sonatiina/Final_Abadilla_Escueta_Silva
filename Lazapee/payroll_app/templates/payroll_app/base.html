@@ -113,28 +113,26 @@
 /* Landing Page */
 
         .containerL {
-            padding-top: 3em;
-            padding-left: 3em;
-            padding-right: 3em;
-            display: flex; 
+            padding: 2em;
+            display: flex;
             flex-wrap: wrap; 
+            align-items: center;
             justify-content: center; 
             gap: 0.6em;
             width: 100%;
-            height: fit-content;
+            height: auto;
             
         }
 
         .dashcard {
-            
-            display: flex; 
+            display: flex;
+            flex: 1 1 20em;
             align-items: center;
             justify-content: center; 
-            flex: 1 1 9em;
-            padding: 2em;
+            padding: 2.5em;
             width: 100%;
-            height: auto;
-            max-height: 8vh;
+            height: 10vh;
+            max-height: 15vh;
             cursor: pointer;
             border-style: solid;
             border-radius: 0.5em;
@@ -147,18 +145,6 @@
         }
     
         .dashcard:hover {
-            
-            display: flex; 
-            align-items: center;
-            justify-content: center; 
-            flex: 1 1 9em;
-            padding: 2em;
-            height: auto;
-            cursor: pointer;
-            border-style: solid;
-            border-radius: 0.5em;
-            border-color: rgb(181, 221, 239);
-            color: white;
             transform: translateY(-10px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 
@@ -169,7 +155,6 @@
             width: 100%;
             padding: 1.5em; 
             color: white;
-            
             display: flex;
             justify-content: center; 
             align-items: center;
@@ -238,8 +223,9 @@
 /* add employee */
 
         .containerAdd {
+            
             width: 100%; 
-            height: 80vh; 
+            height: 100vh; 
             padding: 2em; 
             padding-top: 2em;
             display: flex; 
@@ -249,8 +235,8 @@
         }
 
         .addCard{
-            width: 90%; 
-            height: auto;
+            width: 35em; 
+            height: 8em;
             height: fit-content; 
             border-style: solid; 
             border-radius: 0.5em; 
