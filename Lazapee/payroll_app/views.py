@@ -31,7 +31,7 @@ def landing(request):
     employees = Employee.objects.all()
     total_employees= Employee.objects.count()
     avSalary = Employee.objects.aggregate(avg_price=Avg("rate", default = 0))['avg_price']
-    overtime = Employee.objects.aggregate(total_overtime=Sum("overtime_pay"))['total_overtime']
+    overtime = Employee.objects.aggregate(total_overtime=Sum("overtime_pay", default = 0))['total_overtime']
 
     return render(request, 'payroll_app/landing.html', {'employees': employees, 
                                                         'total_employees': total_employees, 
@@ -57,8 +57,20 @@ def add_employee(request):
         eot = request.POST.get('overtime')
 
         eallowance = float(eallowance) if eallowance else None
+        
+        if Employee.objects.filter(id_number=eid).exists():
+            messages.info(request, 'That ID already exists')
+            return redirect(add_employee)
+        
+        elif len(eid) < 6 or len(eid)> 6:
+            messages.info(request, 'Six digit ID number only')
+            return redirect(add_employee)
+        
+        
+        
 
-        if eid and ename and erate:
+        elif eid and ename and erate:
+           
             Employee.objects.create(
                 name = ename,
                 id_number = eid,
@@ -84,5 +96,35 @@ def remove_employee(request ,pk):
 
     return redirect('landing')
 
+@login_required(login_url='log_in')
+def add_overtime(request,pk):
+    employee = get_object_or_404(Employee, pk=pk)
+    if request.method == "POST":
+        addedOT = request.POST.get('addot')
+        addedOt_value = int(addedOT) if addedOT else None
+        action = request.POST.get('action')
 
+        if addedOt_value is not None:
+            if employee.overtime_pay is None:
+                employee.overtime_pay = 0
+
+            if action == 'Add Overtime':
+                employee.overtime_pay += addedOt_value
+                messages.info(request, str(addedOt_value) + ' Overtime hours added!', extra_tags=str(employee.pk))
+                
+            elif action == 'Deduct Overtime':
+                employee.overtime_pay -= addedOt_value
+                if employee.overtime_pay < 0:
+                    employee.overtime_pay = 0
+                    messages.info(request, 'There is no Overtime hours to deduct! ')
+                else:
+                    messages.info(request, str(addedOt_value) + ' Overtime hours deducted!' , extra_tags=str(employee.pk))
+               
+            employee.save()
+            return redirect('landing')
+        else:
+            messages.info(request, 'Please fill out the necessary fields.')
+            return redirect('landing')
+
+    return render(request, 'payroll_app/landing.html')
 

@@ -23,7 +23,8 @@
             height: 100%;
             font-family: 'Minecraft';
             src: url('/static/fonts/Minecraftia-Regular.ttf') format('truetype');
-            background-image: url("{% static 'pictures/bg1.jpg' %}");
+            /* background-image: url("{% static 'pictures/bg1.jpg' %}");*/
+            background: linear-gradient(330deg,rgba(138, 241, 242, 1) 4%, rgba(70, 143, 144, 1) 46%, rgba(55, 122, 122, 1) 96%);
             background-size:200%;
             background-repeat:repeat;
             background-position: center;
@@ -34,24 +35,31 @@
             flex: 1;
         }
 /* Base HTML */
-        .header{
+        .header {
             display: flex;
             align-items: center;
-            justify-content: space-between ;
-            padding-left: 1em;
-            padding-right: 1em;
-            padding-top: 1.2em;
+            justify-content: space-between;
+            padding: 1.2em 1em 0 1em; /* top right bottom left */
             width: 100%;
             height: 8vh;
-            background-color: rgb(99, 138, 255);
+            backdrop-filter: blur(3px);
             position: fixed;
-            
-            
+            top: 0;
+            left: 0;
+            z-index: 1000; /* ensures it stays above other content */
+        }
+
+        .title{
+            display: flex;
+            align-content: center;
+            color: antiquewhite;
         }
 
         .buttons{
-            padding-right: 1.4em;
+            padding-right: 1.4em            
         }
+
+      
 
         .main{
             margin-top: 6em;
@@ -81,22 +89,24 @@
             border-radius: 2em;
             border-color: rgb(169, 166, 166);            
         }
-            
+
+/* Footer */
         .footer {
             display: flex;
             justify-content: center;
             align-items: center;
             width: 100%;
-            height: 6vh;
-            
-           
-            
+            height: 8vh;
+            backdrop-filter: blur(9px);
             color: white;
-            backdrop-filter: blur(3px);
+            position: relative;
+            bottom: 0;
         }
 
         label{
             color: white;
+            display: flex;
+            align-items: center;
         }
 
         .submit{
@@ -149,6 +159,17 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 
         }
+
+        .info {
+            display: flex; 
+            flex-direction: 
+            column; justify-content: center; 
+            align-items: center;
+        }   
+
+        .info h1 {
+            color: rgba(213, 255, 96, 0.904);
+        }
 /* Tables */
 
         .conTable {
@@ -159,7 +180,7 @@
             justify-content: center; 
             align-items: center;
             flex-direction: column;
-            
+           
             
         }
 
@@ -184,41 +205,54 @@
             transition: 0.3s ease-out;
         }
 
+    
+
+
         .btn {
-            transition: 0.3s ease-in-out;
+            transition: 0.28s ease-in-out;
         }
         .btn:hover{
-            transform: translateY(-3px);
+            transform: translateY(-3.5px);
         }
         
 /* Table Proper */
-        
+        .employees {
+            width: 80%;
+            border-radius: 1em;  
+            border: 2px solid #ccc; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                    
+        }
         
 
         .table, th, td{
-            padding: 1.5em;
-            border: 2px solid;
-            
+            padding: 0.8em 1.2em;  
+            border: 1px solid #e7c4c4;  
             box-shadow: 0 0 3px rgba(158, 249, 255, 0.626);
             cursor: pointer;
             transition: 0.3s ease-in-out;
-            border-color: black;
-            
-            
+            border-color: #ddd;
+                
         }
 
         td:hover {
-            background-color: whitesmoke;
-            color: black;
+            background-color: rgb(181, 233, 226);
+            color: rgb(3, 85, 85);
         }
 
         thead{
-            background-color: rgb(137, 12, 139);
+            background-color: rgba(82, 165, 125, 0.842);
         }
 
         th:hover{
-            background-color: rgb(170, 97, 238);
+            background-color: rgb(59, 128, 64);
         }
+
+        td:last-child {
+            width: 20%;  
+            padding: 0.5em; 
+            text-align: center;  
+}
         
 /* add employee */
 

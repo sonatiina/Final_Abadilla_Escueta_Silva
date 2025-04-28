@@ -4,7 +4,9 @@
 
     <nav class="header">
         <div class="title" style="display: flex">
-            <h1>Lazapee <small> Payroll</small></h1>
+            <h1>Lazapee</h1>
+            <h3 style="color: rgb(236, 175, 221);
+            padding-top: 0.3em;">payroll</h3>
             
         </div>
 
@@ -21,13 +23,22 @@
 {% block form %}
     <div class="containerL" >
         <div class="dashcard">
-            <h3>Employee Count: {{total_employees}} </h3>
+            <div class="info">
+                <h2>Employee Count</h2>
+                <h1> {{total_employees}} </h1>
+            </div>
         </div>
         <div class="dashcard" >
-            <h3>Average Salary: {{avSalary}}</h3>
+            <div class="info">
+                <h2>Average Salary</h2>
+                <h1> {{avSalary}} </h1>
+            </div>
         </div>
         <div class="dashcard">
-            <h3>Overtime Hours: {{total_overtime}}</h3>
+            <div class="info" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <h2>Total Overtime Hours</h2>
+                <h1> {{overtime}} </h1>
+            </div>
         </div>
 
     </div>
@@ -41,7 +52,14 @@
                 <a href="{% url 'add_employee' %}" class="btn btn-warning" > Add an Employee</a>
             </div>  
         </div>
-        <table class="employees" style="border: 1px solid;" >
+        {% if messages %}
+            {% for message in messages %}
+                <div style="color: rgb(222, 125, 241); " >
+                    {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <table class="employees" >
             <thead>
                 <tr>
                 <th>ID Number</th>
@@ -60,15 +78,29 @@
                     <td>{{e.rate}}</td>
                     <td>{{e.allowance}}</td>
                     <td>{{e.overtime_pay}}</td>
-                    <td>
-                        <div class="editBtns" style="gap: 1em;">
-                            <a href="{% url 'remove_employee' e.pk %}" class="btn btn-danger" style="display: flex; flex: 1 1 20em;">Delete Account</a>
-                            <a href="" class="btn btn-danger">Edit</a>
-                            <a href="" class="btn btn-danger">Add overtime</a>
+                    <td >
+                        <div class="editBtns" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                            <div class="firstRow">
+                                <form method="POST" action="{% url 'add_overtime' e.pk %}" style="display: flex; justify-content: center; align-items: center; flex-direction: row; gap: 0.7em; padding: 0.3em;">
+                                    {% csrf_token %}
+                                    
+                                    <input type="text" name="addot" id="addot" placeholder="add/subtract overtime" style="height: 2.3em; width: fit-content;">
+                                    <input type="submit" name="action"  value="Deduct Overtime" class="btn btn-primary">
+                                    <input type="submit" name="action" value="Add Overtime" class="btn btn-primary">
+                                </form>
+                                
+                            </div>
+                            <div class="secondRow" style="display: flex; flex-direction: row; gap: 0.7em;">
+                                <a href="{% url 'remove_employee' e.pk %}" class="btn btn-danger" style="display: flex;">Delete Account</a>
+                                <a href="" class="btn btn-warning">Edit</a>
+                            </div>
+                            
+                            
                         </div>
                     </td>
                 </tr>
                 {% endfor %}
+               
             </tbody>
         </table>
     </div>
