@@ -4,10 +4,13 @@
 
     <nav class="header">
         <div class="title" style="display: flex">
-            <h1>Lazapee</h1>
-            <h3 style="color: rgb(236, 175, 221);
-            padding-top: 0.3em;">payroll</h3>
-            
+            <h1>Lazapee</h1>    
+            <payroll style="color: rgb(236, 175, 221);">payroll</h3>
+            <a href="" class="payslips"> Payslips </a>
+        </div>
+
+        <div>
+
         </div>
 
         <div class="buttons" >
@@ -92,7 +95,7 @@
                             </div>
                             <div class="secondRow" style="display: flex; flex-direction: row; gap: 0.7em;">
                                 <a href="{% url 'remove_employee' e.pk %}" class="btn btn-danger" style="display: flex;">Delete Account</a>
-                                <a href="" class="btn btn-warning">Edit</a>
+                                <a href="{% url 'details' e.pk %}" class="btn btn-warning">Edit</a>
                             </div>
                             
                             
@@ -109,7 +112,7 @@
 
 
 {% block footer %}
-
+    
     <nav class="footer">
         <div class="title">
             <h3>Lazapee Ph 2025</h3>

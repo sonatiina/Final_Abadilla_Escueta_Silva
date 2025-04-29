@@ -128,3 +128,75 @@ def add_overtime(request,pk):
 
     return render(request, 'payroll_app/landing.html')
 
+@login_required(login_url='log_in')
+def details(request ,pk):
+    employee= get_object_or_404(Employee, pk=pk)
+    return render(request, 'payroll_app/details.html' , {'employee': employee,})
+
+@login_required(login_url='log_in')
+def edit_employee(request, pk):
+    employee = get_object_or_404(Employee, pk=pk)
+    if request.method == "POST":
+        newID = request.POST.get('editID')
+        newName = request.POST.get('editName')
+        newRate = request.POST.get('editRate')
+        newAllowance = request.POST.get('editAllowance')
+        newOvertime = request.POST.get('editOt')
+
+
+        if newID:
+            if len(newID) == 6 and newID.isdigit():
+                employee.id_number = newID
+                messages.success(request, 'ID number changed successfully !')
+            elif len(newID) > 6 or len(newID) < 6:
+                messages.info(request, 'ID number can only be 6 digits.')
+                return redirect('details', pk=employee.pk)
+            elif any(char.isalpha() for char in newID):
+                messages.info(request, 'ID number cannot have any letters')
+                return redirect('details', pk=employee.pk)
+
+            
+                                 
+        if newName:
+            employee.name = newName
+            messages.success(request, 'Name changed successfully !')
+       
+        if newRate:
+            if newRate.isdigit():
+                employee.rate = newRate
+                messages.success(request, 'Allowance successfully adjusted !')
+            elif any(char.isalpha() for char in newRate):
+                messages.info(request, 'Allowance cannot have any letters')
+                return redirect('details', pk=employee.pk)
+            else:
+                messages.info(request, 'Please provide a valid amount.')
+                return redirect('details', pk=employee.pk)
+
+            
+
+        if newAllowance:
+            if len(newAllowance) and newAllowance.isdigit():
+                employee.allowance = newAllowance
+                messages.success(request, 'Allowance successfully adjusted !')
+            elif any(char.isalpha() for char in newAllowance):
+                messages.info(request, 'Allowance cannot have any letters')
+                return redirect('details', pk=employee.pk)
+            else:
+                messages.info(request, 'Please provide a valid amount.')
+                return redirect('details', pk=employee.pk)
+
+        if newOvertime:
+            if  newOvertime.isdigit():
+                employee.overtime_pay = newOvertime
+                messages.success(request, 'Overtime Hours successfully adjusted !')
+            elif any(char.isalpha() for char in newOvertime):
+                messages.info(request, 'Overtime Hours cannot have any letters')
+                return redirect('details', pk=employee.pk)
+            else:
+                messages.info(request, 'Please provide a valid amount.')
+                return redirect('details', pk=employee.pk)
+
+
+        employee.save()
+
+    return render(request, 'payroll_app/details.html', {'employee': employee})

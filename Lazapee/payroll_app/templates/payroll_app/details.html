@@ -1,0 +1,123 @@
+{% extends 'payroll_app/base.html' %}
+
+
+{% block header %}
+
+    <nav class="header">
+        <div class="title" style="display: flex">
+            <h1>Lazapee</h1>
+            <h3 style="color: rgb(236, 175, 221);
+            padding-top: 0.3em;">payroll</h3>
+            
+        </div>
+
+        <div class="buttons" >
+            <a href="{% url 'log_out' %}" class="btn btn-danger">Log Out</a>
+        </div>
+
+    </nav>
+
+{% endblock %}
+
+{% block form %}
+    
+    
+    <div class="deets" >
+        <div class="title">
+            <h1 style="color: rgb(161, 244, 244);">
+                Employee {{employee.name}}
+            </h1>
+    
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+                <div style="color: rgb(222, 125, 241); " >
+                    {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <table class="change">
+            <tr>
+                <th>Field</th>
+                <th>Name</th>
+                <th>Edit</th>
+            </tr>
+            <tr>
+                <td> ID Number </td>
+                <td>{{employee.id_number}}</td>
+                <td> 
+                    <div class="editFields">
+                        <form method="POST" action="{% url 'edit_employee' employee.pk %}">
+                            {% csrf_token %}
+                            <input type="text" name="editID" placeholder="Issue ID"  style="width: fit-content; height: 2em;">
+                            <input type="submit" class="btn btn-warning">
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td> Full Name </td>
+                <td>{{ employee.name}}</td>
+                <td> 
+                    <div class="editFields" >
+                        <form method="POST" action=" {% url 'edit_employee' employee.pk %}">
+                            {% csrf_token %}
+                            <input type="text" name="editName" placeholder="Change employee's name"  style="width: fit-content; height: 2em">
+                            <input type="submit" class="btn btn-warning">
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td> Base Rate  </td>
+                <td>{{ employee.rate}}</td>
+                <td> 
+                    <div class="editFields" >
+                        <form method="POST" action=" {% url 'edit_employee' employee.pk %}" >
+                            {% csrf_token %}
+                            <input type="text" name="editRate" placeholder="Adjust basic rate"  style="width: fit-content; height: 2em; ">
+                            <input type="submit" class="btn btn-warning">
+                        </form>
+                    </div>  
+                </td>
+            </tr>
+            <tr>
+                <td> Allowance</td>
+                <td>{{ employee.allowance}}</td>
+                <td> 
+                    <div class="editFields" >
+                        <form method="POST"  action="{% url 'edit_employee' employee.pk %}">
+                            {% csrf_token %}
+                            <input type="text" name="editAllowance" placeholder="enter new allowance"  style="width: fit-content; height: 2em">
+                            <input type="submit" class="btn btn-warning">
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td> Overtime Hours{{ employee.id_numner}} </td>
+                <td>{{ employee.overtime_pay}}</td>
+                <td> 
+                    <div class="editFields" >
+                        <form method="POST" action="{% url 'edit_employee' employee.pk %}">
+                            {% csrf_token %}
+                            <input type="text" name="editOt" placeholder="Edit overtime hours"  style="width: fit-content; height: 2em">
+                            <input type="submit" class="btn btn-warning">
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="{%url 'landing' %}" class="btn btn-success"> ← </a>
+                </td> 
+            </tr>
+        </table>
+
+        
+
+    </div>
+
+   
+{% endblock %}
