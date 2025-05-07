@@ -6,7 +6,7 @@
         <div class="title" style="display: flex">
             <h1>Lazapee</h1>    
             <payroll style="color: rgb(236, 175, 221);">payroll</h3>
-            <a href="" class="payslips"> Payslips </a>
+            <a href="{% url 'payslips' %}" class="payslips"> Payslips </a>
         </div>
 
         <div>
@@ -24,7 +24,11 @@
     
 
 {% block form %}
-    <div class="containerL" >
+
+    <div class="containerL">
+        
+        
+
         <div class="dashcard">
             <div class="info">
                 <h2>Employee Count</h2>
@@ -84,12 +88,11 @@
                     <td >
                         <div class="editBtns" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
                             <div class="firstRow">
-                                <form method="POST" action="{% url 'add_overtime' e.pk %}" style="display: flex; justify-content: center; align-items: center; flex-direction: row; gap: 0.7em; padding: 0.3em;">
+                                <form method="POST" class="editot" action="{% url 'add_overtime' e.pk %}" style="display: flex; justify-content:flex-start; align-items: center; flex-direction: row; gap: 0.7em; padding: 0.3em;">
                                     {% csrf_token %}
                                     
-                                    <input type="text" name="addot" id="addot" placeholder="add/subtract overtime" style="height: 2.3em; width: fit-content;">
-                                    <input type="submit" name="action"  value="Deduct Overtime" class="btn btn-primary">
-                                    <input type="submit" name="action" value="Add Overtime" class="btn btn-primary">
+                                    <input type="number" name="addot" id="addot" style="height: 2.3em; width: 5em; height: 3em; border-radius: 0.5em; ">
+                                    <input type="submit" name="action" value="Add/Deduct overtime" class="btn btn-primary">
                                 </form>
                                 
                             </div>

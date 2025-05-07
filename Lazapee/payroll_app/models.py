@@ -32,3 +32,28 @@ class Employee(models.Model):
     def __str__(self):
         return f"pk: {self.id_number}, rate: {self.rate}"
     
+
+
+class Payslip(models.Model):
+    id_number = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    month = models.CharField(max_length=100)
+    #date_range = models.CharField(max_length=100)
+    year = models.CharField(max_length=100)
+    pay_cycle = models.IntegerField(default=0)
+    #rate = models.FloatField()
+    #earnings_allowance = models.FloatField()
+    #deductions_tax = models.FloatField()
+    #deductions_health = models.FloatField()
+    #pag_ibig = models.FloatField()
+    #overtime = models.FloatField()
+    #total_pay = models.FloatField()
+
+    def getIDNumber(self):
+        return self.id_number
+    def getMonth(self):
+        return self.month
+    
+
+    def __str__(self):
+        return f"pk: {self.id_number}, Period: {self.month} {self.year}, Cycle: {self.pay_cycle}"
+        #return F"pk: {self.id_number}, Period: {self.month}{self.date_range}{self.year}, Cycle: {self.pay_cycle}, Total Pay:{self.total_pay} "

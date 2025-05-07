@@ -1,0 +1,65 @@
+{% extends 'payroll_app/base.html' %}
+
+{% block header %}
+
+    <nav class="header">
+        <div class="title" style="padding-top: 2em; color: white;">
+            <h1>Lazapee</h1>
+        </div>
+
+        
+
+    </nav>
+
+{% endblock %}
+
+{% block form %}
+
+    <div class="container">
+        <div class="card"  style="display: flex; align-content: center; justify-content: center;">
+            <h2 style="color: rgb(212, 255, 95); padding-bottom: 0.8em;" >Create an account !</h2>
+            <form method="POST" class="regform" style="display: flex; flex-direction: column; align-items: center; gap: 1.2em;">
+                {% csrf_token %}
+                
+                <input type="text" name="newun" id="newun" class="regg" placeholder="Enter your username">
+               
+                <input type="password" name="newpw" id="newpw" class="regg" placeholder="Enter your password">
+                
+                <input type="password" name="conpw" id="conpw" class="regg" placeholder="Confirm your password">
+                <input type="submit" class="submit" value="Create an account" style="margin-top:1em ; padding: 1em; border-radius: 0.3em; font-size: 0.9rem;" >
+                {% if messages %}
+                    {% for message in messages %}
+                        <div style="color: rgb(222, 125, 241); " >
+                            {{message}}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+              
+                
+
+            </form>
+
+            <div class="returnLog" style="display: flex; justify-content: center; align-items: center; padding-top: 0.8em; flex-direction: column;">
+                
+                <a href="{% url 'log_in' %}"  class="btn btn-warning" id="returnLog" style="width: 50%; display: flex; justify-content: center;">Return to log in</a>
+            </div>
+
+        </div>
+
+    </div>
+
+{%endblock%}
+
+{% block footer %}
+
+    <nav class="footer">
+        <div class="title">
+            <h3>Lazapee Ph 2025</h3>
+        </div>
+
+        
+
+    </nav>
+
+{%endblock%}
+

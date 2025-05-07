@@ -1,1 +1,128 @@
-{% extends 'payroll_app/base.html %}
+{% extends 'payroll_app/base.html' %}
+
+{% block header %}
+
+    <nav class="header">
+        <div class="title" style="display: flex">
+            <h1>Lazapee</h1>    
+            <payroll style="color: rgb(236, 175, 221);">payroll</h3>
+            <a href="{% url 'landing' %}" class="payslips"> Employees </a>
+        </div>
+
+        <div>
+
+        </div>
+
+        <div class="buttons" >
+            <a href="{% url 'log_out' %}" class="btn btn-danger">Log Out</a>
+        </div>
+
+    </nav>
+
+{% endblock %}
+
+{% block form %}
+
+    <div class="conPayslips" style="width: 100%; height: auto; display: flex; flex-direction: column; gap: 1.4em;">
+        <div class="slipTitle" style="display: flex; justify-content: center;">
+            <h1>Payroll Creation</h1>
+        </div>
+
+        <div class="payFields">
+            <form method= "POST" action="{% url 'createSlip' %}">
+                {% csrf_token %}
+                <div class="empField" style="display: flex; justify-content: center;"> 
+                        <label for="empList">Payroll for: </label>
+                        <select name="empList" id="empList">
+                            {% for e in employees %}
+                                <option value="{{e.pk}}">{{e.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="timeField" style="display: inline-flex; justify-content: center; gap: 1.2em;">
+                    <label for="months"> Month:</label>
+                    <select name="months" id="months">
+                        <option value="January">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
+                    </select>
+                    <label for="year">Year:</label>
+                    <input type="number" name="year" id="year" min="2000" max="3000" required>
+                    <label for="cycle"> Cycle:</label>
+                    <select name="cycle" id="cycle">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+                </div> 
+                <div class="createSubmit" style=" display: flex; justify-content: center;">
+                    <input type="submit" class="btn btn-warning">
+                </div>
+            </form>
+            
+    </div>
+
+    <div class="paySummary" style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top: 3em;">
+        <div class="sumTitle">
+            <h1>PAYSLIPS Summary</h1>
+        </div>
+        
+        <table class="summary">
+            <thead>
+                <tr>
+                    <th>ID Number</th>
+                    <th>Date</th>
+                    <th>Cycle</th>
+                    <th>Total Pay</th>
+                    <th>Full Payslip</th>            
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in payslips %}
+                <tr>
+                    <td>{{s.id_number.id_number}}</td>
+                    <td>{{s.month}}</td>
+                    <td>{{s.pay_cycle}}</td>
+                    <td>{{s.total_pay}}</td>
+                    <td><a href="" class="btn btn-info">View</a></td>
+                    <td><a href="{% url 'delete_slip' s.pk %}"> delete</a></td>
+
+                </tr>
+                
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+
+    
+
+
+    <div class="timeField">
+        <div></div>
+    </div>
+
+{% endblock %}
+
+
+
+{% block footer %}
+    
+    <nav class="footer">
+        <div class="title">
+            <h3>Lazapee Ph 2025</h3>
+        </div>
+
+    </nav>
+
+{%endblock%}

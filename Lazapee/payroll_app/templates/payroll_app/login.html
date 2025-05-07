@@ -18,12 +18,12 @@
     <div class="container">
         <div class="card">
             <h2 style="color: rgb(55, 235, 241);">Log-In</h2>
-            <form method="POST" class="loginform" style="display: flex; flex-direction: column;">
+            <form method="POST" class="loginform" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
                 {% csrf_token %}
                 <label for="username">Enter your username</label>
-                <input type="text" name="username" id="username">
+                <input type="text" name="username" id="username" class="regg">
                 <label for="pass">Enter your Password</label>
-                <input type="password" name="pass" id="pass">
+                <input type="password" name="pass" id="pass" class="regg">
                 <input type="submit" class="submit" value="Login" style="margin-top:2em ; padding: 1em; border-radius: 0.3em;" >
                 {% if messages %}
                     {% for message in messages %}
@@ -36,6 +36,12 @@
                 
 
             </form>
+            <div class="regPortal" style="display: flex; justify-content: center; align-items: center; padding-top: 0.8em; flex-direction: column;">
+                
+                <a href="{% url 'register' %}"  class="btn btn-warning" id="reg" style="width: 50%; display: flex; justify-content: center; ">Register</a>
+                <p style="padding-top: 0.3em;">Don't have an account?</p>
+            </div>
+            
 
         </div>
 
@@ -50,7 +56,7 @@
             <h3>Lazapee Ph 2025</h3>
         </div>
 
-        {{employee.overtime_pay}}
+        
 
     </nav>
 

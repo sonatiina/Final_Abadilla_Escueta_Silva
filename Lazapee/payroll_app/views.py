@@ -2,10 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from django.db.models import Avg, Sum
 
-from .models import Employee
+from .models import Employee, Payslip
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 
@@ -25,6 +27,34 @@ def log_in(request):
                 messages.error(request, 'Invalid credentials. Please try again')
         context = {}
         return render(request, 'payroll_app/login.html' ,context)
+    
+
+def register(request):
+
+    if request.method == "POST":
+        username = request.POST.get('newun')
+        password = request.POST.get('newpw')
+        confirm_password = request.POST.get('conpw')
+
+        if not username or not password or not confirm_password:
+            messages.error(request, 'Please fill in all fields')
+            return redirect(('register'))
+        
+        if password != confirm_password:
+            messages.error(request, 'Passwords do not match.')
+            return redirect('register')
+        
+        if User.objects.filter(username = username).exists():
+            messages.error(request, 'Username already exists')
+            return redirect('register')
+
+        User.objects.create(username = username, password = make_password(password))
+        messages.success(request, 'Account created Successfully ! Welcome ' + username)
+        return redirect('log_in')
+
+
+    return render(request, 'payroll_app/register.html' )
+
 
 @login_required(login_url='log_in')
 def landing(request):
@@ -40,11 +70,18 @@ def landing(request):
                                                         })  
 
 
+@login_required(login_url='log_in')
+def details(request ,pk):
+    employee= get_object_or_404(Employee, pk=pk)
+    return render(request, 'payroll_app/details.html' , {'employee': employee,})
+
 
 @login_required(login_url='log_in')
 def log_out(request):
     logout(request)
     return redirect('log_in')
+
+
 
 
 @login_required(login_url='log_in')
@@ -62,9 +99,12 @@ def add_employee(request):
             messages.info(request, 'That ID already exists')
             return redirect(add_employee)
         
-        elif len(eid) < 6 or len(eid)> 6:
+        if len(eid) < 6 or len(eid)> 6:
             messages.info(request, 'Six digit ID number only')
             return redirect(add_employee)
+        
+        
+        
         
         
         
@@ -90,6 +130,37 @@ def add_employee(request):
     return render(request, 'payroll_app/add_employee.html')
 
 @login_required(login_url='log_in')
+def createSlip(request):
+    if request.method == "POST":
+        currentName = request.POST.get('empList')
+        currentMonth = request.POST.get('months')
+        currentYear = request.POST.get('year')
+        currentCycle = request.POST.get('cycle')
+
+        if currentName and currentMonth and currentYear and currentCycle:
+            try:
+                employee = Employee.objects.get(pk=currentName)
+                Payslip.objects.create(
+                    id_number = employee,
+                    month = currentMonth,
+                    year = currentYear,
+                    pay_cycle = currentCycle,
+                  
+                    
+
+                )
+
+                return redirect('payslips')
+
+            except Employee.DoesNotExist:
+                 messages.error(request, "Employee not found.")
+        else:
+             messages.error(request, "Please fill in all fields")
+                
+    return render(request, 'payroll_app/payslips.html')
+
+
+@login_required(login_url='log_in')
 def remove_employee(request ,pk):
     employee = get_object_or_404(Employee, pk=pk)
     employee.delete()
@@ -97,41 +168,45 @@ def remove_employee(request ,pk):
     return redirect('landing')
 
 @login_required(login_url='log_in')
-def add_overtime(request,pk):
+def add_overtime(request, pk):
     employee = get_object_or_404(Employee, pk=pk)
+
     if request.method == "POST":
-        addedOT = request.POST.get('addot')
-        addedOt_value = int(addedOT) if addedOT else None
+        addOT = request.POST.get('addot')
         action = request.POST.get('action')
 
-        if addedOt_value is not None:
-            if employee.overtime_pay is None:
-                employee.overtime_pay = 0
+        try:
+            addedOT = float(addOT)
+        except ValueError:  
+            messages.error(request, "Invalid input for overtime hours.")
+            return redirect('landing')
 
-            if action == 'Add Overtime':
-                employee.overtime_pay += addedOt_value
-                messages.info(request, str(addedOt_value) + ' Overtime hours added!', extra_tags=str(employee.pk))
-                
-            elif action == 'Deduct Overtime':
-                employee.overtime_pay -= addedOt_value
-                if employee.overtime_pay < 0:
-                    employee.overtime_pay = 0
-                    messages.info(request, 'There is no Overtime hours to deduct! ')
-                else:
-                    messages.info(request, str(addedOt_value) + ' Overtime hours deducted!' , extra_tags=str(employee.pk))
-               
-            employee.save()
+        if not addedOT:
             return redirect('landing')
+        
+        if employee.overtime_pay is None:
+            employee.overtime_pay = 0
+
+        newOvertime = employee.overtime_pay + addedOT
+
+        if newOvertime < 0:
+            employee.overtime_pay = 0
+            messages.info(request, 'Overtime hours cannot be negative.')
+
+
         else:
-            messages.info(request, 'Please fill out the necessary fields.')
-            return redirect('landing')
+            employee.overtime_pay = newOvertime
+            if float(addedOT) >= 0:
+                messages.info(request, f'{addedOT} overtime hours added!', extra_tags=str(employee.pk))
+            else:
+                messages.info(request, f'{abs(addedOT)} overtime hours deducted!', extra_tags=str(employee.pk))
+
+        employee.save()
+        return redirect('landing')
 
     return render(request, 'payroll_app/landing.html')
 
-@login_required(login_url='log_in')
-def details(request ,pk):
-    employee= get_object_or_404(Employee, pk=pk)
-    return render(request, 'payroll_app/details.html' , {'employee': employee,})
+
 
 @login_required(login_url='log_in')
 def edit_employee(request, pk):
@@ -196,7 +271,22 @@ def edit_employee(request, pk):
                 messages.info(request, 'Please provide a valid amount.')
                 return redirect('details', pk=employee.pk)
 
-
         employee.save()
 
     return render(request, 'payroll_app/details.html', {'employee': employee})
+
+@login_required(login_url='log_in')
+def payslips(request):
+    employees = Employee.objects.all()
+    payslips = Payslip.objects.all()
+    return render(request, 'payroll_app/payslips.html', {'employees': employees,
+                                                         'payslips': payslips})
+
+
+
+def delete_slip(request, pk):
+    payslip = get_object_or_404(Payslip, pk=pk)
+    payslip.delete()
+    return redirect('payslips')
+    
+            

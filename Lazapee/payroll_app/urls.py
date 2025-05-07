@@ -26,5 +26,9 @@ urlpatterns = [
     path('remove_employee/<int:pk>/', views.remove_employee, name  = 'remove_employee'),
     path("add_overtime/<int:pk>/", views.add_overtime, name = 'add_overtime'),
     path('details/<int:pk>/', views.details, name = 'details'),
-    path('edit_employee/<int:pk>', views.edit_employee, name = 'edit_employee')
+    path('edit_employee/<int:pk>', views.edit_employee, name = 'edit_employee'),
+    path('payslips', views.payslips, name = 'payslips'),
+    path('createSlip', views.createSlip, name = 'createSlip'),
+    path('delete_slip/<int:pk>/', views.delete_slip, name = 'delete_slip'),
+    path('register', views.register, name = 'register')
 ]
