@@ -56,16 +56,25 @@ class Payslip(models.Model):
         return self.month
     def getRate(self):
         return self.rate
-    def getAllowance(self):
+    def getDate_range(self):
+        return self.date_range
+    def getYear(self):
+        return self.year
+    def getPayCycle(self):
+        return self.pay_cycle
+    def getEarnings_Allowance(self):
         return self.earnings_allowance
-    def getTotal(self):
+    def getOvertime(self):
+        return self.overtime
+    def getTotal_pay(self):
         return self.total_pay
     def getS(self):
         return self.sss
-    def getDeductionstax(self):
+    def getDeductions_tax(self):
         return self.deductions_tax
-    def getDate(self):
-        return self.date_range
+    def getDeductions_health(self):
+        return self.deductions_health
+    
     
 
     def __str__(self):

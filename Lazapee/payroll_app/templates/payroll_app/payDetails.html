@@ -23,7 +23,7 @@
 {% block form %}
     
     
-    <div class="deets" >
+    <div class="payDeets" >
         <div class="title">
             <h1 style="color: rgb(161, 244, 244);">
                 Payslip: {{payslip.id_number.name}}
@@ -39,56 +39,65 @@
         {% endif %}
         
         <table class="slip">
-            
+            <tr>
+                <td> NAME </td>
+                <td>{{payslip.id_number.name}}</td>
+            </tr>
             <tr>
                 <td> ID Number </td>
                 <td>{{payslip.id_number.id_number}}</td>
             </tr>
-             <tr>
-                <td> MONTHLY RATE </td>
-                <td>{{payslip.monthlyRate}}</td>
+            <tr >
+                <td> DATE </td>
+                <td>{{payslip.date_range}}</td>
             </tr>
-            <tr>
-                <td> CYCLE </td>
-                <td>{{payslip.pay_cycle}}</td>
+        
+            
+
+             <tr>
+                <td style="color: rgb(255, 156, 225);"> MONTHLY RATE </td>
+                <td style="color: rgb(255, 156, 225);">{{payslip.monthlyRate}}</td>
             </tr>
              <tr>
-                <td> RATE </td>
+                <td> Base Pay </td>
                 <td>{{payslip.rate}}</td>
             </tr>
              <tr>
                 <td> ALLOWANCE </td>
                 <td>{{payslip.earnings_allowance}}</td>
             </tr>
-             <tr>
-                <td> TAX </td>
-                <td>{{payslip.deductions_tax}}</td>
-            </tr>
-             <tr>
-                <td> PAGIBIG DEDUCTIONS </td>
-                <td>{{payslip.pag_ibig}}</td>
-            </tr>
-            <tr>
-                <td> HEALTH </td>
-                <td>{{payslip.deductions_health}}</td>
-            </tr>
             <tr>
                 <td> OVERTIME </td>
                 <td>{{payslip.overtime}}</td>
             </tr>
-            <tr>
-                <td> SSS </td>
-                <td>{{payslip.sss}}</td>
+
+             <tr>
+                <td> TAX </td>
+                <td>{{payslip.deductions_tax}}</td>
             </tr>
+            {% if payslip.pag_ibig != 0 %}
+                <tr>
+                    <td> PAGIBIG DEDUCTIONS </td>
+                    <td>{{payslip.pag_ibig}}</td>
+                </tr>
+            {% endif %}
+            {% if payslip.deductions_health != 0 %}
+                <tr>
+                    <td> PHIL HEALTH </td>
+                    <td>{{payslip.deductions_health}}</td>
+                </tr>
+            {% endif %}
+            {% if payslip.sss != 0 %}
+                <tr>
+                    <td> SSS </td>
+                    <td>{{payslip.sss}}</td>
+                </tr>
+            {% endif %}
             <tr>
-                <td> TOTAL PAY </td>
+                <td> NET PAY </td>
                 <td>{{payslip.total_pay}}</td>
             </tr>
-             <tr>
-                <td> DATE </td>
-                <td>{{payslip.date_range}}</td>
-            </tr>
-
+             
 
             <div>
                  <a href="{% url 'payslips' %}" class="btn btn-warning"> Return to Payslips</a>
@@ -104,3 +113,14 @@
 
    
 {% endblock %}
+
+{% block footer %}
+    
+    <nav class="footer">
+        <div class="title">
+            <h3>Lazapee Ph 2025</h3>
+        </div>
+
+    </nav>
+
+{%endblock%}

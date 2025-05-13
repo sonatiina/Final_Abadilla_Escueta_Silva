@@ -1,0 +1,40 @@
+{% extends 'payroll_app/base.html' %}
+
+{% block header %}
+
+    <nav class="header">
+        <div class="title" style="display: flex">
+            <h1>Lazapee</h1>    
+            <payroll style="color: rgb(236, 175, 221);">payroll</h3>
+            <a href="{% url 'payslips' %}" class="payslips"> Payslips </a>
+        </div>
+
+        <div>
+
+        </div>
+
+        <div class="buttons" >
+            <a href="{% url 'log_out' %}" class="btn btn-danger">Log Out</a>
+        </div>
+
+    </nav>
+
+{% endblock %} 
+
+{% block form %}
+    
+        <div style="display: flex; justify-content: center; align-items:center;  flex-direction: column; padding-top: 10em;">
+            
+                <h1>Are you sure u want to delete? {{employee.name}}</h1>
+                <div style="display: inline-flex; gap: 3em;">
+                    <a href="{% url 'remove_employee' employee.pk %}" class="btn btn-danger">Yes</a>    
+                    <a href="{% url 'landing' %}" class="btn btn-warning">No</a>
+                </div>
+                
+
+        </div>
+ 
+
+
+   
+{% endblock %}

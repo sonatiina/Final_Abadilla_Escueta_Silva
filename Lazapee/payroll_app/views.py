@@ -61,7 +61,7 @@ def landing(request):
     employees = Employee.objects.all()
     total_employees= Employee.objects.count()
     avSalary = Employee.objects.aggregate(avg_price=Avg("rate", default = 0))['avg_price']
-    overtime = Employee.objects.aggregate(total_overtime=Sum("overtime_pay", default = 0))['total_overtime']
+    overtime = Employee.objects.aggregate(total_overtime=Avg("overtime_pay", default = 0))['total_overtime']
 
     return render(request, 'payroll_app/landing.html', {'employees': employees, 
                                                         'total_employees': total_employees, 
@@ -196,8 +196,6 @@ def createSlip(request):
                     sss = ss, 
                     overtime = ot,
                     date_range = date
-                    
-                    
                 )
 
                 employee.overtime_pay = 0
@@ -212,6 +210,10 @@ def createSlip(request):
                 
     return render(request, 'payroll_app/payslips.html')
 
+@login_required(login_url='log_in')
+def confirm_delete(request, pk):
+    employee = get_object_or_404(Employee, pk=pk)
+    return render(request, 'payroll_app/confirm_delete.html' , {'employee': employee,})
 
 @login_required(login_url='log_in')
 def remove_employee(request ,pk):
@@ -219,6 +221,9 @@ def remove_employee(request ,pk):
     employee.delete()
 
     return redirect('landing')
+
+
+    
 
 @login_required(login_url='log_in')
 def add_overtime(request, pk):

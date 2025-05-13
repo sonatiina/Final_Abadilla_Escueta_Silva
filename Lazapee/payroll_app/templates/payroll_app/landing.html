@@ -43,7 +43,7 @@
         </div>
         <div class="dashcard">
             <div class="info" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <h2>Total Overtime Hours</h2>
+                <h2>Average Overtime </h2>
                 <h1> {{overtime}} </h1>
             </div>
         </div>
@@ -97,7 +97,7 @@
                                 
                             </div>
                             <div class="secondRow" style="display: flex; flex-direction: row; gap: 0.7em;">
-                                <a href="{% url 'remove_employee' e.pk %}" class="btn btn-danger" style="display: flex;">Delete Account</a>
+                                <a href="{% url 'confirm_delete' e.pk %}" class="btn btn-danger" style="display: flex;">Delete Account</a>
                                 <a href="{% url 'details' e.pk %}" class="btn btn-warning">Edit</a>
                             </div>
                             
