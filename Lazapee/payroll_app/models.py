@@ -37,7 +37,7 @@ class Employee(models.Model):
 class Payslip(models.Model):
     id_number = models.ForeignKey(Employee, on_delete=models.CASCADE)
     month = models.CharField(max_length=100)
-    #date_range = models.CharField(max_length=100)
+    date_range = models.CharField(max_length=250)
     year = models.CharField(max_length=100)
     pay_cycle = models.IntegerField(default=0)
     rate = models.FloatField()
@@ -60,10 +60,12 @@ class Payslip(models.Model):
         return self.earnings_allowance
     def getTotal(self):
         return self.total_pay
-    def s(self):
+    def getS(self):
         return self.sss
-    def deductionstax(self):
+    def getDeductionstax(self):
         return self.deductions_tax
+    def getDate(self):
+        return self.date_range
     
 
     def __str__(self):

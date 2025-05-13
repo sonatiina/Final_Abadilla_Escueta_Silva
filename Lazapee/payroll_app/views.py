@@ -162,16 +162,21 @@ def createSlip(request):
                 ss = 0
                 health = 0
                 tax = 0
+                date = ''
+                month = currentMonth
+                year = currentYear 
                 if currentCycle == 1:
                     pagibig = 100
                     gross = (base + allowance + ot - pagibig) 
                     tax = gross *.2
+                    date = f" {month} 1-15, {year}"
                 elif currentCycle == 2:
                     base = employee.rate
                     health = 0.04 * base
                     ss = 0.045 * base
                     gross = (base/2 + allowance + ot - health - ss) 
                     tax =  gross * .2
+                    date = f" {month} 16-30, {year}"
                 
                 total = gross - tax
 
@@ -189,7 +194,8 @@ def createSlip(request):
                     deductions_health = health,
                     deductions_tax = tax,
                     sss = ss, 
-                    overtime = ot
+                    overtime = ot,
+                    date_range = date
                     
                     
                 )
@@ -244,7 +250,7 @@ def add_overtime(request, pk):
         else:
             employee.overtime_pay = newOvertime
             if float(addedOT) >= 0:
-                messages.info(request, f'{addedOT} overtime hours added!', extra_tags=str(employee.pk))
+                messages.info(request, f'{addedOT} overtime hours added!', extra_tags=str(employee.pk)) 
             else:
                 messages.info(request, f'{abs(addedOT)} overtime hours deducted!', extra_tags=str(employee.pk))
 
