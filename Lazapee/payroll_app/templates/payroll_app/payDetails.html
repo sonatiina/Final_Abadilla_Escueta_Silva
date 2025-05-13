@@ -1,0 +1,101 @@
+{% extends 'payroll_app/base.html' %}
+
+{% block header %}
+
+    <nav class="header">
+        <div class="title" style="display: flex">
+            <h1>Lazapee</h1>    
+            <payroll style="color: rgb(236, 175, 221);">payroll</h3>
+            <a href="" class="payslips"> Payslips </a>
+        </div>
+
+        <div>
+
+        </div>
+
+        <div class="buttons" >
+            <a href="{% url 'log_out' %}" class="btn btn-danger">Log Out</a>
+        </div>
+
+    </nav>
+
+{% endblock %}
+{% block form %}
+    
+    
+    <div class="deets" >
+        <div class="title">
+            <h1 style="color: rgb(161, 244, 244);">
+                Payslip: {{payslip.id_number.name}}
+            </h1>
+    
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+                <div style="color: rgb(222, 125, 241); " >
+                    {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <table class="slip">
+            
+            <tr>
+                <td> ID Number </td>
+                <td>{{payslip.id_number.id_number}}</td>
+            </tr>
+             <tr>
+                <td> MONTHLY RATE </td>
+                <td>{{payslip.monthlyRate}}</td>
+            </tr>
+            <tr>
+                <td> CYCLE </td>
+                <td>{{payslip.pay_cycle}}</td>
+            </tr>
+             <tr>
+                <td> RATE </td>
+                <td>{{payslip.rate}}</td>
+            </tr>
+             <tr>
+                <td> ALLOWANCE </td>
+                <td>{{payslip.earnings_allowance}}</td>
+            </tr>
+             <tr>
+                <td> TAX </td>
+                <td>{{payslip.deductions_tax}}</td>
+            </tr>
+             <tr>
+                <td> PAGIBIG DEDUCTIONS </td>
+                <td>{{payslip.pag_ibig}}</td>
+            </tr>
+            <tr>
+                <td> HEALTH </td>
+                <td>{{payslip.deductions_health}}</td>
+            </tr>
+            <tr>
+                <td> OVERTIME </td>
+                <td>{{payslip.overtime}}</td>
+            </tr>
+            <tr>
+                <td> SSS </td>
+                <td>{{payslip.sss}}</td>
+            </tr>
+            <tr>
+                <td> TOTAL PAY </td>
+                <td>{{payslip.total_pay}}</td>
+            </tr>
+
+            <div>
+                 <a href="{% url 'payslips' %}" class="btn btn-warning"> Return to Payslips</a>
+            </div>
+           
+        </table>
+
+
+
+        
+
+    </div>
+
+   
+{% endblock %}

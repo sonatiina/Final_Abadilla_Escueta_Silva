@@ -23,17 +23,17 @@
 
 {% block form %}
 
-    <div class="conPayslips" style="width: 100%; height: auto; display: flex; flex-direction: column; gap: 1.4em;">
-        <div class="slipTitle" style="display: flex; justify-content: center;">
-            <h1>Payroll Creation</h1>
+    <div class="conPayslips" >
+        <div class="slipTitle">
+            <h1 class="creation">Payroll Creation</h1>
         </div>
 
         <div class="payFields">
-            <form method= "POST" action="{% url 'createSlip' %}">
+            <form method= "POST" action="{% url 'createSlip' %}" style="padding-bottom: 1.5em;  ">
                 {% csrf_token %}
-                <div class="empField" style="display: flex; justify-content: center;"> 
+                <div class="empField" style="display: flex; justify-content: center; flex: 1 1 20em;"> 
                         <label for="empList">Payroll for: </label>
-                        <select name="empList" id="empList">
+                        <select name="empList" id="empList"  style="border-radius: 0.6em;">
                             {% for e in employees %}
                                 <option value="{{e.pk}}">{{e.name}}</option>
                             {% endfor %}
@@ -42,7 +42,7 @@
                 </div>
                 <div class="timeField" style="display: inline-flex; justify-content: center; gap: 1.2em;">
                     <label for="months"> Month:</label>
-                    <select name="months" id="months">
+                    <select name="months" id="months" style="width: 15em; border-radius:0.6em;">
                         <option value="January">January</option>
                         <option value="February">February</option>
                         <option value="March">March</option>
@@ -57,9 +57,9 @@
                         <option value="December">December</option>
                     </select>
                     <label for="year">Year:</label>
-                    <input type="number" name="year" id="year" min="2000" max="3000" required>
+                    <input type="number" name="year" id="year" min="2000" max="3000" required style="width: 10em; border-radius: 0.8em;">
                     <label for="cycle"> Cycle:</label>
-                    <select name="cycle" id="cycle">
+                    <select name="cycle" id="cycle" style="width: 3em; border-radius: 0.6em; ">
                         <option value="1">1</option>
                         <option value="2">2</option>
                     </select>
@@ -70,8 +70,15 @@
             </form>
             
     </div>
-
-    <div class="paySummary" style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top: 3em;">
+    {% if messages %}
+            {% for message in messages %}
+                <div style="color: rgb(222, 125, 241); justify-content: center; align-items: center; display: flex; " >
+                    {{message}}
+                </div>
+            {% endfor %}
+    {% endif %}
+        
+    <div class="paySummary" >
         <div class="sumTitle">
             <h1>PAYSLIPS Summary</h1>
         </div>
@@ -93,7 +100,7 @@
                     <td>{{s.month}}</td>
                     <td>{{s.pay_cycle}}</td>
                     <td>{{s.total_pay}}</td>
-                    <td><a href="" class="btn btn-info">View</a></td>
+                    <td><a href="{% url 'payDetails' s.pk %}" class="btn btn-info">View</a></td>
                     <td><a href="{% url 'delete_slip' s.pk %}"> delete</a></td>
 
                 </tr>
@@ -105,6 +112,7 @@
 
     </div>
 
+    
     
 
 

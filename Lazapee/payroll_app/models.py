@@ -40,18 +40,30 @@ class Payslip(models.Model):
     #date_range = models.CharField(max_length=100)
     year = models.CharField(max_length=100)
     pay_cycle = models.IntegerField(default=0)
-    #rate = models.FloatField()
-    #earnings_allowance = models.FloatField()
-    #deductions_tax = models.FloatField()
-    #deductions_health = models.FloatField()
-    #pag_ibig = models.FloatField()
-    #overtime = models.FloatField()
-    #total_pay = models.FloatField()
+    rate = models.FloatField()
+    monthlyRate = models.FloatField()
+    earnings_allowance = models.FloatField(null=True, blank=True)
+    deductions_tax = models.FloatField(null=True, blank=True)
+    deductions_health = models.FloatField(null=True, blank=True)
+    pag_ibig = models.FloatField(null=True, blank=True)
+    overtime = models.FloatField(null=True, blank=True)
+    total_pay = models.FloatField()
+    sss = models.FloatField(null=True, blank=True)
 
     def getIDNumber(self):
         return self.id_number
     def getMonth(self):
         return self.month
+    def getRate(self):
+        return self.rate
+    def getAllowance(self):
+        return self.earnings_allowance
+    def getTotal(self):
+        return self.total_pay
+    def s(self):
+        return self.sss
+    def deductionstax(self):
+        return self.deductions_tax
     
 
     def __str__(self):

@@ -50,7 +50,7 @@ def register(request):
 
         User.objects.create(username = username, password = make_password(password))
         messages.success(request, 'Account created Successfully ! Welcome ' + username)
-        return redirect('log_in')
+        return render(request, 'payroll_app/login.html')
 
 
     return render(request, 'payroll_app/register.html' )
@@ -74,6 +74,14 @@ def landing(request):
 def details(request ,pk):
     employee= get_object_or_404(Employee, pk=pk)
     return render(request, 'payroll_app/details.html' , {'employee': employee,})
+
+
+@login_required(login_url='log_in')
+def payDetails(request, pk):
+    payslip = get_object_or_404(Payslip, pk=pk)
+    return render(request, 'payroll_app/payDetails.html', {'payslip': payslip,
+                                                        
+                                                           })
 
 
 @login_required(login_url='log_in')
@@ -135,20 +143,59 @@ def createSlip(request):
         currentName = request.POST.get('empList')
         currentMonth = request.POST.get('months')
         currentYear = request.POST.get('year')
-        currentCycle = request.POST.get('cycle')
+        currentCycle = int(request.POST.get('cycle'))
+
+        if Payslip.objects.filter(id_number=currentName, month=currentMonth, year=currentYear, pay_cycle=currentCycle).exists():
+            messages.error(request, 'That payslip has already been issued')
+            return redirect('payslips')
 
         if currentName and currentMonth and currentYear and currentCycle:
             try:
+
+                
                 employee = Employee.objects.get(pk=currentName)
+                allowance = employee.allowance
+                base = employee.rate / 2
+                ot = employee.overtime_pay * 1.5 * (employee.rate/160)
+
+                pagibig = 0
+                ss = 0
+                health = 0
+                tax = 0
+                if currentCycle == 1:
+                    pagibig = 100
+                    gross = (base + allowance + ot - pagibig) 
+                    tax = gross *.2
+                elif currentCycle == 2:
+                    base = employee.rate
+                    health = 0.04 * base
+                    ss = 0.045 * base
+                    gross = (base/2 + allowance + ot - health - ss) 
+                    tax =  gross * .2
+                
+                total = gross - tax
+
+
                 Payslip.objects.create(
                     id_number = employee,
                     month = currentMonth,
                     year = currentYear,
                     pay_cycle = currentCycle,
-                  
+                    monthlyRate = employee.rate,
+                    rate = base,
+                    earnings_allowance = employee.allowance,
+                    total_pay= total,
+                    pag_ibig = pagibig,
+                    deductions_health = health,
+                    deductions_tax = tax,
+                    sss = ss, 
+                    overtime = ot
                     
-
+                    
                 )
+
+                employee.overtime_pay = 0
+                employee.save()
 
                 return redirect('payslips')
 
@@ -205,8 +252,6 @@ def add_overtime(request, pk):
         return redirect('landing')
 
     return render(request, 'payroll_app/landing.html')
-
-
 
 @login_required(login_url='log_in')
 def edit_employee(request, pk):
