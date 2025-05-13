@@ -243,7 +243,7 @@ def add_overtime(request, pk):
             return redirect('landing')
         
         if employee.overtime_pay is None:
-            employee.overtime_pay = 0
+            employee.overtime_pay = 0   
 
         newOvertime = employee.overtime_pay + addedOT
 
@@ -289,7 +289,13 @@ def edit_employee(request, pk):
             
                                  
         if newName:
-            employee.name = newName
+            list(newName)
+            for letter in newName:
+                if letter.isdigit():
+                    messages.error(request, 'No numbers in name please!')
+                    return redirect ('details', pk=employee.pk)
+            else:
+                employee.name = newName
             messages.success(request, 'Name changed successfully !')
        
         if newRate:
@@ -297,7 +303,7 @@ def edit_employee(request, pk):
                 employee.rate = newRate
                 messages.success(request, 'Allowance successfully adjusted !')
             elif any(char.isalpha() for char in newRate):
-                messages.info(request, 'Allowance cannot have any letters')
+                messages.info(request, 'Rate cannot have any letters')
                 return redirect('details', pk=employee.pk)
             else:
                 messages.info(request, 'Please provide a valid amount.')
