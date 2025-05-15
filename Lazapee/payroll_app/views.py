@@ -100,8 +100,16 @@ def add_employee(request):
         erate = request.POST.get('rate')
         eallowance = request.POST.get('allowance')
         eot = request.POST.get('overtime')
+        
+        try:
+            float(eallowance), float(erate)
+        except ValueError:
+            messages.info(request, 'Numbers only please')
+            return redirect(add_employee)
 
         eallowance = float(eallowance) if eallowance else None
+        eot = 0 
+        
         
         if Employee.objects.filter(id_number=eid).exists():
             messages.info(request, 'That ID already exists')
@@ -110,10 +118,6 @@ def add_employee(request):
         if len(eid) < 6 or len(eid)> 6:
             messages.info(request, 'Six digit ID number only')
             return redirect(add_employee)
-        
-        
-        
-        
         
         
 
@@ -171,10 +175,10 @@ def createSlip(request):
                     tax = gross *.2
                     date = f" {month} 1-15, {year}"
                 elif currentCycle == 2:
-                    base = employee.rate
+                    
                     health = 0.04 * base
                     ss = 0.045 * base
-                    gross = (base/2 + allowance + ot - health - ss) 
+                    gross = (base + allowance + ot - health - ss) 
                     tax =  gross * .2
                     date = f" {month} 16-30, {year}"
                 
@@ -250,6 +254,10 @@ def add_overtime(request, pk):
         if newOvertime < 0:
             employee.overtime_pay = 0
             messages.info(request, 'Overtime hours cannot be negative.')
+
+        if newOvertime > 20:
+            employee.overtime_pay += 0
+            messages.info(request, 'It is illegal to have more than 20 hours ofovertime.')
 
 
         else:
@@ -344,6 +352,11 @@ def payslips(request):
     return render(request, 'payroll_app/payslips.html', {'employees': employees,
                                                          'payslips': payslips})
 
+
+def delete_page(request,pk):
+    payslip = get_object_or_404(Payslip, pk=pk)
+    return render(request, 'payroll_app/delete_page.html', {'payslip':payslip,
+                                                       })
 
 
 def delete_slip(request, pk):

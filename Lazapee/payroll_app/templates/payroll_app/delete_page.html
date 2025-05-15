@@ -23,13 +23,15 @@
 
 {% block form %}
     
-        <div style="display: flex; justify-content: center; align-items:center;  flex-direction: column; padding-top: 10em;">
-            
+        <div style="display: flex; justify-content: center; align-items:center;  flex-direction: column; padding-top: 10em; padding-left: 5em; padding-right: 5em;">
+             
                 <h1>Are you sure you want to delete</h1>
-                <h2 style="color: rgb(213, 169, 255);">Employee: {{employee.name}} ?</h2>
+                <h2 style="color: rgb(213, 169, 255);">Payslip for {{payslip.id_number.name}} <br>
+                    for date:  {{payslip.month}}, {{payslip.year}} <br>
+                    cycle : {{payslip.pay_cycle}} ?</h2>
                 <div style="display: inline-flex; gap: 2em;">
-                    <a href="{% url 'remove_employee' employee.pk %}" class="btn btn-danger" style="width: 8em;">Yes</a>    
-                    <a href="{% url 'landing' %}" class="btn btn-warning" style="width: 8em;">No</a>
+                    <a href="{% url 'delete_slip' payslip.pk %}" class="btn btn-danger" style="width: 8em;">Yes</a>    
+                    <a href="{% url 'payslips' %}" class="btn btn-warning" style="width: 8em;">No</a>
                 </div>
                 
 

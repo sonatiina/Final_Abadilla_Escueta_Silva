@@ -7,8 +7,9 @@ class Employee(models.Model):
     name = models.CharField(max_length=255)
     id_number = models.CharField(max_length=255)
     rate = models.FloatField()
-    overtime_pay = models.FloatField(null=True, blank=True)
+    overtime_pay = models.FloatField(max_length=20,null=True, blank=True)
     allowance = models.FloatField(null=True, blank=True)
+    
 
     def getName(self):
         return self.name
@@ -46,10 +47,10 @@ class Payslip(models.Model):
     deductions_tax = models.FloatField(null=True, blank=True)
     deductions_health = models.FloatField(null=True, blank=True)
     pag_ibig = models.FloatField(null=True, blank=True)
-    overtime = models.FloatField(null=True, blank=True)
+    overtime = models.FloatField(max_length=20,  null=True, blank=True)
     total_pay = models.FloatField()
     sss = models.FloatField(null=True, blank=True)
-
+    
     def getIDNumber(self):
         return self.id_number
     def getMonth(self):
@@ -78,5 +79,5 @@ class Payslip(models.Model):
     
 
     def __str__(self):
-        return f"pk: {self.id_number}, Period: {self.month} {self.year}, Cycle: {self.pay_cycle}"
-        #return F"pk: {self.id_number}, Period: {self.month}{self.date_range}{self.year}, Cycle: {self.pay_cycle}, Total Pay:{self.total_pay} "
+        return f"pk: {self.id_number}, Period: {self.month} {self.year}, Cycle: {self.pay_cycle}, Total Pay:{self.total_pay}"
+        

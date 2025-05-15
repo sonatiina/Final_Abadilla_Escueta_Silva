@@ -32,5 +32,6 @@ urlpatterns = [
     path('delete_slip/<int:pk>/', views.delete_slip, name = 'delete_slip'),
     path('register', views.register, name = 'register'),
     path('payDetails/<int:pk>/', views.payDetails, name = 'payDetails'),
-    path('confirm_delete/<int:pk>/', views.confirm_delete, name = 'confirm_delete' )
+    path('confirm_delete/<int:pk>/', views.confirm_delete, name = 'confirm_delete' ),
+    path('delete_page/<int:pk>/', views.delete_page, name = 'delete_page' )
 ]

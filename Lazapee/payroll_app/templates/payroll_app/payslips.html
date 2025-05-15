@@ -27,7 +27,6 @@
         <div class="slipTitle">
             <h1 class="creation">Payroll Creation</h1>
         </div>
-
         <div class="payFields">
             <form method= "POST" action="{% url 'createSlip' %}" style="padding-bottom: 1.5em;  ">
                 {% csrf_token %}
@@ -35,7 +34,7 @@
                         <label for="empList">Payroll for: </label>
                         <select name="empList" id="empList"  style="border-radius: 0.6em;">
                             {% for e in employees %}
-                                <option value="{{e.pk}}">{{e.name}}</option>
+                                <option value="{{e.pk}}">{{e.id_number}} - {{e.name}}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -68,7 +67,7 @@
                     <input type="submit" class="btn btn-warning">
                 </div>
             </form>
-            
+        </div>
     </div>
     {% if messages %}
             {% for message in messages %}
@@ -101,7 +100,7 @@
                     <td>{{s.pay_cycle}}</td>
                     <td>{{s.total_pay}}</td>
                     <td><a href="{% url 'payDetails' s.pk %}" class="btn btn-info">View</a></td>
-                    <td><a href="{% url 'delete_slip' s.pk %}"> delete</a></td>
+                    <td><a href="{% url 'delete_page' s.pk %}" class="btn btn-danger"> delete</a></td>
 
                 </tr>
                 

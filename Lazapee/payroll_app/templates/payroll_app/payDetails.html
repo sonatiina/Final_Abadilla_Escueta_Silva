@@ -6,7 +6,7 @@
         <div class="title" style="display: flex">
             <h1>Lazapee</h1>    
             <payroll style="color: rgb(236, 175, 221);">payroll</h3>
-            <a href="" class="payslips"> Payslips </a>
+            <a href="{% url 'payslips' %}" class="payslips"> Payslips </a>
         </div>
 
         <div>
@@ -38,6 +38,7 @@
             {% endfor %}
         {% endif %}
         
+    
         <table class="slip">
             <tr>
                 <td> NAME </td>
@@ -61,7 +62,7 @@
              <tr>
                 <td> Base Pay </td>
                 <td>{{payslip.rate}}</td>
-            </tr>
+            </tr>   
              <tr>
                 <td> ALLOWANCE </td>
                 <td>{{payslip.earnings_allowance}}</td>
@@ -98,13 +99,16 @@
                 <td>{{payslip.total_pay}}</td>
             </tr>
              
-
+        
+            
             <div>
                  <a href="{% url 'payslips' %}" class="btn btn-warning"> Return to Payslips</a>
             </div>
            
         </table>
+  
 
+   
 
 
         
