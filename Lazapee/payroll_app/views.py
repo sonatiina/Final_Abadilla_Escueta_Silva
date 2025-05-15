@@ -170,7 +170,7 @@ def createSlip(request):
                 year = currentYear 
                 realGross = 0
                 if currentCycle == 1:
-                    
+                    pagibig = 100
                     realGross = (base + allowance + ot)
                     gross = (base + allowance + ot - pagibig) 
                     tax = gross *.2

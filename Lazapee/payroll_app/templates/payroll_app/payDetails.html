@@ -42,12 +42,12 @@
           
         <div class="resiboHeader" style="margin: 20px; width: 100%;">
             <div class="headerRow" style="display: flex; justify-content: space-between;">
-                <div class="left">NAME: Luis Cajocom</div>
-                <div class="right">DATE: March 16–30, 2023</div>
+                <div class="left">NAME: {{payslip.id_number.name}}</div>
+                <div class="right">{{payslip.date_range}}</div>
             </div>
             <div class="header-row" style="display: flex; justify-content: space-between;">
-                <div class="left">ID NUMBER: 150726</div>
-                <div class="right">PAYSLIP ID: 1</div>
+                <div class="left">ID NUMBER: {{payslip.id_number.id_number}}</div>
+                <div class="right">PAYSLIP ID: {{payslip.pay_cycle}}</div>
             </div>
         </div>
         <div class="earningsHeader" style="margin: 20px; width: 100%;">
@@ -78,34 +78,35 @@
             </div>
         </div>
         <div class="deductionsHeader" style="margin: 20px; width: 100%;">
-            <div class="heade   rRow" style="display: flex; justify-content: space-between;">
+            <div class="headerRow" style="display: flex; justify-content: space-between;">
                 <div class="left">DEDUCTIONS</div>
                 
             </div>
-            <div class="deductiosnContent" style="margin: 20px; width: 100%;">
-                {% if payslip.pag_ibig != 0%}
+            <div class="deductionsContent" style="margin: 20px; width: 100%;">
+                
+                {% if payslip.pag_ibig != 0 %}
                     <div class="deductionsRow" style="padding-right: 12em;">
                         <div class="left">PAGIBIG</div>
                         <div class="right">{{payslip.pag_ibig}}</div>
                     </div>
                 {% endif %}
-                {% if payslip.deductions_tax != 0%}
+                {% if payslip.deductions_tax != 0 %}
                     <div class="deductionsRow" style="padding-right: 12em;">
                         <div class="left">W/HOLDING TAX</div>
                         <div class="right">{{payslip.deductions_tax}}</div>
                     </div>
                 {% endif %}
-                {% if payslip.deductions_health != 0%}
+                {% if payslip.deductions_health != 0 %}
                     <div class="deductionsRow" style="padding-right: 12em;"> 
                         <div class="left">PHILHEALTH</div>
                         <div class="right">{{payslip.deductions_health}}</div>
                     </div>
                 {% endif %}
 
-                {% if payslip.sss != 0%}
+                {% if payslip.sss != 0 %}
                     <div class="deductionsRow" style="padding-right: 12em;">
                         <div class="left">SSS</div>
-                        <div class="right">{{payslip.overtime}}</div>
+                        <div class="right">{{payslip.sss}}</div>
                     </div>
                 {% endif %}
 
