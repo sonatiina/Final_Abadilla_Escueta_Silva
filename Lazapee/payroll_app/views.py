@@ -26,7 +26,7 @@ def log_in(request):
             else:
                 messages.error(request, 'Invalid credentials. Please try again')
         context = {}
-        return render(request, 'payroll_app/login.html' ,context)
+    return render(request, 'payroll_app/login.html' ,context)
     
 
 def register(request):
@@ -52,8 +52,7 @@ def register(request):
         messages.success(request, 'Account created Successfully ! Welcome ' + username)
         return render(request, 'payroll_app/login.html')
 
-
-    return render(request, 'payroll_app/register.html' )
+    return render(request, 'payroll_app/register.html')
 
 
 @login_required(login_url='log_in')
@@ -169,8 +168,10 @@ def createSlip(request):
                 date = ''
                 month = currentMonth
                 year = currentYear 
+                realGross = 0
                 if currentCycle == 1:
-                    pagibig = 100
+                    
+                    realGross = (base + allowance + ot)
                     gross = (base + allowance + ot - pagibig) 
                     tax = gross *.2
                     date = f" {month} 1-15, {year}"
@@ -178,9 +179,11 @@ def createSlip(request):
                     
                     health = 0.04 * base
                     ss = 0.045 * base
+                    realGross = (base + allowance + ot)
                     gross = (base + allowance + ot - health - ss) 
                     tax =  gross * .2
                     date = f" {month} 16-30, {year}"
+                    
                 
                 total = gross - tax
 
@@ -199,7 +202,8 @@ def createSlip(request):
                     deductions_tax = tax,
                     sss = ss, 
                     overtime = ot,
-                    date_range = date
+                    date_range = date,
+                    gross_pay = realGross
                 )
 
                 employee.overtime_pay = 0

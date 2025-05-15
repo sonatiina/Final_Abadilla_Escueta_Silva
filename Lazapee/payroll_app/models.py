@@ -50,6 +50,7 @@ class Payslip(models.Model):
     overtime = models.FloatField(max_length=20,  null=True, blank=True)
     total_pay = models.FloatField()
     sss = models.FloatField(null=True, blank=True)
+    gross_pay = models.FloatField()
     
     def getIDNumber(self):
         return self.id_number
@@ -71,6 +72,8 @@ class Payslip(models.Model):
         return self.total_pay
     def getS(self):
         return self.sss
+    def getGross_Pay(self):
+        return self.gross_pay
     def getDeductions_tax(self):
         return self.deductions_tax
     def getDeductions_health(self):

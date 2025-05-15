@@ -18,7 +18,7 @@
     <div class="container">
         <div class="card">
             <h2 style="color: rgb(55, 235, 241);">Log-In</h2>
-            <form method="POST" class="loginform" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <form method="POST" class="loginform" style="display: flex; flex-direction: column; justify-content: center; align-items: center;" action="{% url 'log_in' %}">
                 {% csrf_token %}
                 <label for="username">Enter your username</label>
                 <input type="text" name="username" id="username" class="regg">

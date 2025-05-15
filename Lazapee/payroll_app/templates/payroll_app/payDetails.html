@@ -37,8 +37,156 @@
                 </div>
             {% endfor %}
         {% endif %}
+
+    <div class="resibo" style="border-style: solid; border-color: rgb(178, 211, 221); border-radius: 0.4em; width: 90%; display: flex; justify-content: center; align-items: center; flex-direction: column; padding: 2em; ">
+          
+        <div class="resiboHeader" style="margin: 20px; width: 100%;">
+            <div class="headerRow" style="display: flex; justify-content: space-between;">
+                <div class="left">NAME: Luis Cajocom</div>
+                <div class="right">DATE: March 16–30, 2023</div>
+            </div>
+            <div class="header-row" style="display: flex; justify-content: space-between;">
+                <div class="left">ID NUMBER: 150726</div>
+                <div class="right">PAYSLIP ID: 1</div>
+            </div>
+        </div>
+        <div class="earningsHeader" style="margin: 20px; width: 100%;">
+            <div class="headerRow" style="display: flex; justify-content: space-between;">
+                <div class="left">EARNINGS</div>
+                <div class="right" style="padding-right: 4em;"><strong>AMOUNT</strong></div>
+            </div>
+            <div class="earningsContent" style="margin: 20px; width: 100%;">
+                <div class="earningsRow" style="padding-right: 12em;"   >
+                    <div class="left">BASE PAY</div>
+                    <div class="right">{{payslip.rate}}</div>
+                </div>
+                <div class="earningsRow" style="padding-right: 12em;"> 
+                    <div class="left">ALLOWANCE</div>
+                    <div class="right">{{payslip.earnings_allowance}}</div>
+                </div>
+                <div class="earningsRow" style="padding-right: 12em;">
+                    <div class="left">OVERTIME</div>
+                    <div class="right">{{payslip.overtime}}</div>
+                </div>
+
+                <div class="earningsRow">
+                    <div><strong>GROSS PAY</strong> </div>
+                    <div><strong>{{payslip.gross_pay}}</strong></div>
+
+                </div>
+                
+            </div>
+        </div>
+        <div class="deductionsHeader" style="margin: 20px; width: 100%;">
+            <div class="heade   rRow" style="display: flex; justify-content: space-between;">
+                <div class="left">DEDUCTIONS</div>
+                
+            </div>
+            <div class="deductiosnContent" style="margin: 20px; width: 100%;">
+                {% if payslip.pag_ibig != 0%}
+                    <div class="deductionsRow" style="padding-right: 12em;">
+                        <div class="left">PAGIBIG</div>
+                        <div class="right">{{payslip.pag_ibig}}</div>
+                    </div>
+                {% endif %}
+                {% if payslip.deductions_tax != 0%}
+                    <div class="deductionsRow" style="padding-right: 12em;">
+                        <div class="left">W/HOLDING TAX</div>
+                        <div class="right">{{payslip.deductions_tax}}</div>
+                    </div>
+                {% endif %}
+                {% if payslip.deductions_health != 0%}
+                    <div class="deductionsRow" style="padding-right: 12em;"> 
+                        <div class="left">PHILHEALTH</div>
+                        <div class="right">{{payslip.deductions_health}}</div>
+                    </div>
+                {% endif %}
+
+                {% if payslip.sss != 0%}
+                    <div class="deductionsRow" style="padding-right: 12em;">
+                        <div class="left">SSS</div>
+                        <div class="right">{{payslip.overtime}}</div>
+                    </div>
+                {% endif %}
+
+                <div class="deductionsRow">
+                    <div><strong>TOTAL DEDUCTIONS</strong></div>
+                    <div><strong>{{ payslip.deductions_health|add:payslip.deductions_tax|add:payslip.pag_ibig|add:payslip.sss }}</strong></div>
+                </div>
+
+                <div class="netnet">
+                    <div><h3><strong>NETPAY</strong> </h3></div>
+                    <div><h3><strong>{{payslip.total_pay}}</strong></h3></div>
+
+                </div>
+
+                
+            </div>
+        </div>    
+
         
+    </div>
+
+    <div class="title" style="display: flex; justify-content: center; align-items: center; margin-bottom: 0.2em;">
+        <h2 style="color: rgb(161, 244, 244); font-weight: bold;">
+            {% if payslip.pay_cycle == 1 %}
+                Cycle 1 PaySlip
+            {% else %}
+                Cycle 2 PaySlip
+            {% endif %}
+        </h2>
+    </div>
+
+    <div class="containerss" style="color: white;">
+      
+        <div class="section details">
+            <p><strong>DATE:</strong> {{ payslip.date_range }}</p>
+            <p><strong>NAME:</strong> {{ payslip.id_number.name }}</p>
+            <p><strong>PAYSLIP ID:</strong> {{ payslip.id }}</p>
+            <p><strong>ID NUMBER:</strong> {{ payslip.id_number.id_number }}</p>
+        </div>
+
+       
+        <div class="section earnings">
+            <h5><strong>EARNINGS:</strong></h5>
+            <p>Base Pay: {{ payslip.rate }}</p>
+            <p>Allowances: {{ payslip.earnings_allowance }}</p>
+            <p>Overtime: {{ payslip.overtime }}</p>
+            <hr>
+            <p><strong>GROSS PAY:</strong> PHP {{ payslip.rate|add:payslip.earnings_allowance|add:payslip.overtime }}</p>
+        </div>
+
+
+        <div class="section deductions">
+            <h5><strong>DEDUCTIONS:</strong></h5>
+            <p>W/HOLDING TAX: {{ payslip.deductions_tax }}</p>
+            {% if payslip.deductions_health != 0 %}
+                <p>PHILHEALTH: {{ payslip.deductions_health }}</p>
+            {% endif %}
+            {% if payslip.sss != 0 %}
+                <p>SSS: {{ payslip.sss }}</p>
+            {% endif %}
+            <hr>
+            <p><strong>TOTAL DEDUCTIONS:</strong> PHP {{ payslip.deductions_tax|add:payslip.deductions_health|add:payslip.sss }}</p>
+        </div>
+
+        
+        <div class="section netpay">
+            <h4><strong>NET PAY:</strong> PHP {{ payslip.total_pay }}</h4>
+        </div>
+    </div>
+
+    <!-- RETURN  -->
     
+
+
+        
+                
+    
+
+
+        <!--
+        
         <table class="slip">
             <tr>
                 <td> NAME </td>
@@ -99,7 +247,7 @@
                 <td>{{payslip.total_pay}}</td>
             </tr>
              
-        
+        -->
             
             <div>
                  <a href="{% url 'payslips' %}" class="btn btn-warning"> Return to Payslips</a>
